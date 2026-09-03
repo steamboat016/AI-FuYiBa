@@ -1,0 +1,1252 @@
+:root {
+  color-scheme: light;
+  font-family: "Avenir Next", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #20201d;
+  --paper: #f1f2ef;
+  --surface: #fffefa;
+  --surface-muted: #e9eae6;
+  --ink: #20201d;
+  --muted: #686962;
+  --rule: #d4d5cf;
+  --rule-strong: #a9aaa4;
+  --accent: #b5362d;
+  --accent-dark: #872820;
+  --accent-soft: #f6e5e2;
+  --correct: #28764b;
+  --correct-soft: #e4f0e8;
+  --close: #b77916;
+  --close-soft: #fff1d4;
+  --wrong: #656962;
+  --wrong-soft: #e8e9e6;
+  --shadow: 0 10px 26px rgba(32, 32, 29, 0.09);
+  --dock-reserve: 118px;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--paper);
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(rgba(32, 32, 29, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(32, 32, 29, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+body::before {
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 4px;
+  background: var(--accent);
+  content: "";
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(181, 54, 45, 0.28);
+  outline-offset: 2px;
+}
+
+::selection {
+  color: var(--surface);
+  background: var(--accent);
+}
+
+.game-page {
+  min-height: 100vh;
+  padding: 32px 24px var(--dock-reserve);
+}
+
+.topbar,
+.control-band,
+.board-band,
+.release-footer {
+  width: min(1240px, 100%);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.masthead {
+  min-width: 0;
+}
+
+.publication-mark {
+  display: inline-block;
+  margin: 0 0 10px;
+  padding: 4px 7px;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.game-page h1,
+.empty-state h2,
+.answer-dialog h2,
+.rules-dialog h2 {
+  font-family: "Iowan Old Style", "Noto Serif SC", "Songti SC", "STSong", serif;
+  letter-spacing: 0;
+}
+
+.game-page h1 {
+  max-width: 760px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+.deck {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.topbar-actions,
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.topbar-actions {
+  flex: 0 0 auto;
+  padding-top: 3px;
+}
+
+.game-action,
+.difficulty-option,
+.icon-button,
+.paper-input-row button {
+  border: 1px solid var(--rule-strong);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    color 140ms ease,
+    border-color 140ms ease,
+    background-color 140ms ease,
+    transform 140ms ease;
+}
+
+.game-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 8px 11px;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.game-action:hover:not(:disabled),
+.icon-button:hover {
+  border-color: var(--ink);
+  background: var(--surface-muted);
+}
+
+.game-action:active:not(:disabled),
+.icon-button:active {
+  transform: translateY(1px);
+}
+
+.game-action.primary {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--surface);
+}
+
+.game-action.primary:hover:not(:disabled) {
+  border-color: var(--accent-dark);
+  background: var(--accent-dark);
+}
+
+.game-action.warning {
+  border-color: #c89b4e;
+  background: #fff8e9;
+  color: #6f4b0f;
+}
+
+.game-action:disabled,
+.paper-input-row button:disabled {
+  cursor: not-allowed;
+  opacity: 0.48;
+}
+
+.control-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  align-items: stretch;
+  gap: 22px;
+  margin-bottom: 22px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.difficulty-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-self: start;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--rule-strong);
+}
+
+.difficulty-option {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) 18px;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  min-height: 50px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 0;
+  background: var(--surface);
+  text-align: left;
+}
+
+.difficulty-option:hover {
+  background: var(--surface-muted);
+}
+
+.difficulty-option strong {
+  display: block;
+  color: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.difficulty-option.active {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+
+.status-column {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+  width: 100%;
+}
+
+.game-progress {
+  display: grid;
+  gap: 9px;
+  min-width: 0;
+  padding-left: 14px;
+  border-left: 3px solid var(--accent);
+}
+
+.progress-copy {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.progress-copy span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.progress-copy strong {
+  color: var(--ink);
+  font-family: "Iowan Old Style", "Noto Serif SC", "Songti SC", "STSong", serif;
+  font-size: 1.08rem;
+}
+
+.attempt-track {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.attempt-track span {
+  height: 7px;
+  border: 1px solid var(--rule-strong);
+  background: var(--surface);
+}
+
+.attempt-track span.used {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.feedback-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 12px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.3;
+}
+
+.feedback-legend > span {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.source-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.71rem;
+  line-height: 1.45;
+}
+
+.board-band {
+  min-width: 0;
+}
+
+.guess-board-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: 0 5px 16px rgba(32, 32, 29, 0.055);
+}
+
+.guess-board {
+  width: 100%;
+  min-width: 1080px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.guess-board th {
+  padding: 11px 8px;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--surface-muted);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.guess-board th:first-child {
+  width: 24%;
+}
+
+.guess-board th:nth-child(2) {
+  width: 12%;
+}
+
+.guess-board th:nth-child(3) {
+  width: 7%;
+}
+
+.guess-board th:nth-child(4) {
+  width: 10%;
+}
+
+.guess-board th:nth-child(5) {
+  width: 9%;
+}
+
+.guess-board th:nth-child(6) {
+  width: 16%;
+}
+
+.guess-board th:nth-child(7),
+.guess-board th:nth-child(8) {
+  width: 11%;
+}
+
+.guess-board th:last-child,
+.guess-board td:last-child {
+  border-right: 0;
+}
+
+.guess-board td {
+  padding: 12px 9px;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.guess-board tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.guess-board tbody tr {
+  animation: row-in 240ms ease-out both;
+}
+
+.guess-board .paper-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: "Iowan Old Style", "Noto Serif SC", "Songti SC", "STSong", serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.guess-number {
+  flex: 0 0 auto;
+  min-width: 24px;
+  padding-right: 8px;
+  border-right: 1px solid var(--rule-strong);
+  color: var(--accent);
+  font-family: "Avenir Next", "Noto Sans SC", "PingFang SC", sans-serif;
+  font-size: 0.66rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+}
+
+.guess-board td.correct {
+  border-color: #9ebca9;
+  background: var(--correct-soft);
+  color: #174b30;
+  box-shadow: inset 0 3px 0 var(--correct);
+}
+
+.guess-board td.close {
+  border-color: #d3b16d;
+  background: var(--close-soft);
+  color: #6c460b;
+  box-shadow: inset 0 3px 0 var(--close);
+}
+
+.guess-board td.wrong {
+  border-color: #b8bbb6;
+  background: var(--wrong-soft);
+  color: #3f433e;
+  box-shadow: inset 0 3px 0 var(--wrong);
+}
+
+.guess-board .direction {
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.feedback-value-row {
+  display: inline-flex;
+  max-width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.feedback-mark {
+  flex: 0 0 auto;
+  padding: 1px 4px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-size: 0.58rem;
+  font-weight: 800;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.guess-board-empty {
+  width: 100%;
+  padding: 18px;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: rgba(255, 254, 250, 0.72);
+  color: var(--muted);
+  text-align: center;
+}
+
+.empty-state {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+  min-height: 300px;
+  padding: 48px 20px;
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+  background: rgba(255, 254, 250, 0.72);
+  text-align: center;
+}
+
+.empty-state h2,
+.empty-state p {
+  margin: 0;
+}
+
+.empty-state h2 {
+  color: var(--ink);
+  font-size: 1.55rem;
+  line-height: 1.25;
+}
+
+.empty-state p {
+  max-width: 640px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.release-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding: 14px 0 24px;
+  border-top: 1px solid var(--ink);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: right;
+}
+
+.feedback-invite {
+  margin: 0;
+  text-align: left;
+}
+
+.release-meta {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.release-data-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-weight: inherit;
+  line-height: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.input-dock {
+  position: fixed;
+  z-index: 15;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--rule-strong);
+  background: rgba(241, 242, 239, 0.96);
+  box-shadow: 0 -6px 18px rgba(32, 32, 29, 0.06);
+  backdrop-filter: blur(10px);
+}
+
+.paper-input {
+  position: relative;
+  width: min(820px, 100%);
+  margin: 0 auto;
+}
+
+.paper-input-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.paper-input-row {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  min-height: 48px;
+  padding: 6px 6px 6px 12px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition:
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.paper-input-row:focus-within {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 3px rgba(181, 54, 45, 0.13),
+    var(--shadow);
+}
+
+.paper-input-row > svg {
+  color: var(--muted);
+}
+
+.paper-input-row input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+}
+
+.paper-input-row input::placeholder {
+  color: #85867f;
+  text-overflow: ellipsis;
+}
+
+.paper-input-row button {
+  min-height: 36px;
+  padding: 7px 15px;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--surface);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.paper-input-row button:hover:not(:disabled) {
+  border-color: var(--accent-dark);
+  background: var(--accent-dark);
+}
+
+.paper-suggestions {
+  position: absolute;
+  z-index: 18;
+  right: 0;
+  bottom: calc(100% + 8px);
+  left: 0;
+  max-height: min(320px, 45vh);
+  margin: 0;
+  padding: 5px;
+  overflow: auto;
+  list-style: none;
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.paper-suggestion-option {
+  display: grid;
+  width: 100%;
+  gap: 3px;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.paper-suggestion-option.active,
+.paper-suggestion-option:hover {
+  background: var(--accent-soft);
+}
+
+.paper-suggestions span {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(32, 32, 29, 0.64);
+}
+
+.answer-dialog,
+.rules-dialog {
+  position: relative;
+  width: min(600px, 100%);
+  max-height: min(760px, calc(100vh - 36px));
+  overflow: auto;
+  padding: 26px;
+  border: 1px solid var(--ink);
+  border-top: 5px solid var(--accent);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: 0 18px 48px rgba(32, 32, 29, 0.24);
+}
+
+.answer-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  background: var(--surface);
+}
+
+.result-kicker {
+  margin: 0 0 7px;
+  color: var(--accent);
+  font-size: 0.73rem;
+  font-weight: 800;
+}
+
+.answer-dialog h2,
+.rules-dialog h2 {
+  margin: 0 42px 18px 0;
+  color: var(--ink);
+  font-size: 1.75rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.rules-dialog h3 {
+  margin: 22px 0 9px;
+  padding-top: 16px;
+  border-top: 1px solid var(--rule);
+  font-size: 0.9rem;
+}
+
+.answer-dialog dl {
+  display: grid;
+  gap: 0;
+  margin: 0 0 18px;
+  border-top: 1px solid var(--rule);
+}
+
+.answer-dialog dl div {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.answer-dialog dt {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.answer-dialog dd {
+  min-width: 0;
+  margin: 0;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.player-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 4px 0 18px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  background: var(--rule);
+  gap: 1px;
+  overflow: hidden;
+}
+
+.player-stats > div {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 10px 6px;
+  background: var(--surface);
+}
+
+.player-stats strong {
+  color: var(--ink);
+  font-family: "Iowan Old Style", "Noto Serif SC", "Songti SC", serif;
+  font-size: 1.15rem;
+}
+
+.player-stats span {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.share-fallback {
+  margin: 0 0 16px;
+  padding: 11px;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+}
+
+.share-fallback p {
+  margin: 0 0 7px;
+  color: var(--accent-dark);
+  font-size: 0.78rem;
+}
+
+.share-fallback textarea {
+  display: block;
+  width: 100%;
+  min-height: 132px;
+  resize: vertical;
+  border: 1px solid var(--rule-strong);
+  border-radius: 3px;
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.rule-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.rule-grid p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.swatch {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 11px;
+  height: 11px;
+  margin-right: 7px;
+  border: 1px solid rgba(32, 32, 29, 0.18);
+  border-radius: 2px;
+  vertical-align: -1px;
+}
+
+.swatch.correct {
+  background: var(--correct);
+}
+
+.swatch.close {
+  background: var(--close);
+}
+
+.swatch.wrong {
+  background: var(--wrong);
+}
+
+@keyframes row-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 920px) {
+  .topbar {
+    display: grid;
+    gap: 18px;
+  }
+
+  .topbar-actions {
+    justify-content: flex-start;
+  }
+
+  .control-band {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .status-column {
+    grid-template-columns: minmax(0, 1fr) minmax(230px, 0.65fr);
+    align-items: center;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --dock-reserve: calc(116px + env(safe-area-inset-bottom));
+  }
+
+  .game-page {
+    padding: 24px 16px var(--dock-reserve);
+  }
+
+  .topbar {
+    margin-bottom: 16px;
+    padding-bottom: 18px;
+  }
+
+  .game-page h1 {
+    font-size: 2.35rem;
+  }
+
+  .deck {
+    font-size: 0.92rem;
+  }
+
+  .control-band {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+  }
+
+  .difficulty-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .status-column {
+    grid-template-columns: 1fr;
+  }
+
+  .guess-board-wrap {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .guess-board {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    font-size: 0.8rem;
+  }
+
+  .guess-board thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .guess-board tbody {
+    display: grid;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .guess-board tbody tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--rule-strong);
+    border-top: 4px solid var(--accent);
+    border-radius: 6px;
+    background: var(--rule);
+    box-shadow: 0 5px 14px rgba(32, 32, 29, 0.06);
+  }
+
+  .guess-board td,
+  .guess-board th:first-child,
+  .guess-board th:nth-child(2),
+  .guess-board th:nth-child(3),
+  .guess-board th:nth-child(4),
+  .guess-board th:nth-child(5),
+  .guess-board th:nth-child(6),
+  .guess-board th:nth-child(7),
+  .guess-board th:nth-child(8) {
+    width: auto;
+  }
+
+  .guess-board td {
+    display: flex;
+    min-width: 0;
+    min-height: 70px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px;
+    border: 0;
+    border-radius: 0;
+    text-align: left;
+  }
+
+  .guess-board td::before {
+    display: block;
+    color: currentColor;
+    content: attr(data-label);
+    font-size: 0.7rem;
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+  .guess-board .paper-title {
+    grid-column: 1 / -1;
+    min-height: 82px;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+  }
+
+  .guess-board td:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .guess-board .paper-title::before {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .guess-number {
+    min-width: 29px;
+    padding-right: 9px;
+    font-size: 0.68rem;
+  }
+
+  .guess-board .direction {
+    margin-left: 0;
+  }
+
+  .empty-state {
+    min-height: 210px;
+    padding: 34px 14px;
+  }
+
+  .empty-state h2 {
+    font-size: 1.3rem;
+  }
+
+  .release-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .input-dock {
+    padding-right: 12px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    padding-left: 12px;
+  }
+
+  .answer-dialog,
+  .rules-dialog {
+    max-height: calc(100dvh - 24px);
+    padding: 22px 18px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-page {
+    padding-top: 20px;
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .publication-mark {
+    margin-bottom: 8px;
+  }
+
+  .game-page h1 {
+    font-size: 2rem;
+  }
+
+  .deck {
+    margin-top: 8px;
+    font-size: 0.86rem;
+  }
+
+  .topbar-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    gap: 5px;
+  }
+
+  .topbar-actions .game-action {
+    min-width: 0;
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+
+  .difficulty-option {
+    grid-template-columns: 18px minmax(0, 1fr) 16px;
+    gap: 5px;
+    min-height: 46px;
+    padding: 7px;
+  }
+
+  .difficulty-option strong {
+    font-size: 0.74rem;
+  }
+
+  .progress-copy {
+    align-items: center;
+  }
+
+  .feedback-legend {
+    column-gap: 8px;
+  }
+
+  .empty-state {
+    min-height: 160px;
+    padding: 28px 10px;
+  }
+
+  .empty-state p {
+    font-size: 0.78rem;
+  }
+
+  .paper-input-row {
+    grid-template-columns: 18px minmax(0, 1fr) auto;
+    gap: 7px;
+    min-height: 46px;
+    padding-left: 10px;
+  }
+
+  .paper-input-row input {
+    font-size: 0.88rem;
+  }
+
+  .paper-input-row button {
+    padding-right: 11px;
+    padding-left: 11px;
+  }
+
+  .dialog-backdrop {
+    padding: 12px;
+  }
+
+  .answer-dialog h2,
+  .rules-dialog h2 {
+    font-size: 1.45rem;
+  }
+
+  .answer-dialog dl div {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .player-stats strong {
+    font-size: 1rem;
+  }
+
+  .dialog-actions {
+    justify-content: stretch;
+  }
+
+  .dialog-actions .game-action {
+    flex: 1 1 auto;
+  }
+}
+
+@media (max-width: 360px) {
+  .game-page {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .game-page h1 {
+    font-size: 1.85rem;
+  }
+
+  .topbar-actions .game-action {
+    gap: 4px;
+    font-size: 0.78rem;
+  }
+
+  .difficulty-option {
+    grid-template-columns: minmax(0, 1fr) 15px;
+  }
+
+  .difficulty-option > svg:first-child {
+    display: none;
+  }
+
+  .guess-board td {
+    min-height: 66px;
+    padding: 9px 8px;
+  }
+
+  .guess-board .paper-title {
+    min-height: 78px;
+  }
+
+  .paper-input-row button {
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+
+  .player-stats > div {
+    padding-right: 3px;
+    padding-left: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
